@@ -1,6 +1,6 @@
 {
     "name": "vue-component",
-    "description": "Roll your Vue components with Rollup. Edit.",
+    "description": "Roll your Vue components with Rollup.",
     "bash": ["yarn || npm install", "npm run build"],
     "readme": "https://github.com/workplus-templates/vue-componentt#readme"
 }
