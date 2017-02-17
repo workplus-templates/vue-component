@@ -1,7 +1,7 @@
 import each from 'lodash/each';
 import path from 'path';
 import fs from 'fs';
-import sass from 'node-sass';
+import less from 'less';
 
 export const pack = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'package.json'), 'utf8'));
 
@@ -28,14 +28,14 @@ export default {
   css(style, styles) {
     const projectDir = path.resolve(__dirname, '');
     const distDir = path.resolve(projectDir, 'dist/');
-    const stylesDir = path.resolve(projectDir, 'dist/scss/');
+    const stylesDir = path.resolve(projectDir, 'dist/less/');
     const srcDir = path.resolve(projectDir, 'src/');
     const outputs = [];
 
     each(styles, (data) => {
       const filename = data.id
       const output = filename.replace(srcDir, '')
-          .replace(/vue$/i, data.lang || 'scss')
+          .replace(/vue$/i, data.lang || 'less')
           .replace(/^\/|\/$/g, '');
       const dest = path.resolve(stylesDir, output);
       outputs.push(output);
@@ -46,36 +46,32 @@ export default {
     });
 
     fs.writeFile(
-        path.resolve(distDir, `${pack.name}.scss`),
-        outputs.map((output) => `@import './scss/${output.replace(/\.[a-z0-9]+$/i, '')}';`).join("\n"),
+        path.resolve(distDir, `${pack.name}.less`),
+        outputs.map((output) => `@import './less/${output.replace(/\.[a-z0-9]+$/i, '')}';`).join("\n"),
         (err) => {
           if (err) throw err;
         }
     );
-
-    sass.render({
-      data: style,
-      outputStyle: 'compressed',
-    }, (err, result) => {
-      if (err) throw err;
-
-      const output = path.resolve(distDir, `${pack.name}.min.css`);
-      fs.writeFile(output, result.css, (err) => {
+    
+    less.render(style, {
+        compress: true          // Minify CSS output
+      }, (err, output) => {
         if (err) throw err;
+
+        const result = path.resolve(distDir, `${pack.name}.min.css`);
+        fs.writeFile(result, output.css, (err) => {
+          if (err) throw err;
+        });
       });
-    });
-
-    sass.render({
-      data: style,
-      outputStyle: 'expanded',
-    }, (err, result) => {
-      if (err) throw err;
-
-      const output = path.resolve(distDir, `${pack.name}.css`);
-      fs.writeFile(output, result.css, (err) => {
+    
+    less.render(style, (err, output) => {
         if (err) throw err;
-      });
-    })
+
+        const result = path.resolve(distDir, `${pack.name}.css`);
+        fs.writeFile(result, output.css, (err) => {
+          if (err) throw err;
+        });
+      });  
   },
   standalone: true, // custom option.
 };
