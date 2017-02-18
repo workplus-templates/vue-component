@@ -1,30 +1,43 @@
 # vue-component
 
-> Roll your Vue components with Rollup. Fork from [vue-plugin-simple](https://github.com/znck/vue-plugin-simple).
+> Roll your Vue components with Rollup.
 
+**Fork from [vue-plugin-simple](https://github.com/znck/vue-plugin-simple).**
 
-## 技术栈
+## Dependencies
 
-* VueJs
+* Vue 2.0
 * Rollup
-* Eslint
 * Less
+* Eslint(airbnb)
 
-## 安装
+## Usage
 
-确保已经安装workplus-cli
+Make sure installed `workplus-cli`.
 
 ```bash
 $ npm install workplus-cli -g
 ```
 
-然后执行以下命令：
+And run:
 
 ```bash
 $ workplus start vue-component my-project
 ```
 
-安装完成后，进入项目目录，执行npm install
+## Build Setup
+
+```bash
+# install dependencies
+npm install
+
+# build the component by rullup
+npm run build
+
+# run eslint tests
+npm run lint
+
+```
 
 ## Author
 
