@@ -2,7 +2,7 @@
 
 > 🚀 Roll your Vue components with Rollup.
 
-***Fork from [vue-plugin-simple](https://github.com/znck/vue-plugin-simple).***
+**Fork from [znck/vue-plugin-simple](https://github.com/znck/vue-plugin-simple).**
 
 ## Dependencies
 
